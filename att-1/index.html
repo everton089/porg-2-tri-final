@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Números</title>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Análise de Números</h1>
+
+        <p>Digite números inteiros separados por vírgula:</p>
+
+        <input
+            type="text"
+            id="numeros"
+            placeholder="Ex: 10, 5, 8, 3, 12"
+        >
+
+        <button onclick="analisarNumeros()">
+            Analisar
+        </button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function encontrarMaior(numeros) {
+            let maior = numeros[0];
+
+            for (let numero of numeros) {
+                if (numero > maior) {
+                    maior = numero;
+                }
+            }
+
+            return maior;
+        }
+
+        function encontrarMenor(numeros) {
+            let menor = numeros[0];
+
+            for (let numero of numeros) {
+                if (numero < menor) {
+                    menor = numero;
+                }
+            }
+
+            return menor;
+        }
+
+        function calcularMedia(numeros) {
+            let soma = 0;
+
+            for (let numero of numeros) {
+                soma += numero;
+            }
+
+            return soma / numeros.length;
+        }
+
+        function contarPares(numeros) {
+            let quantidade = 0;
+
+            for (let numero of numeros) {
+                if (numero % 2 === 0) {
+                    quantidade++;
+                }
+            }
+
+            return quantidade;
+        }
+
+        function contarImpares(numeros) {
+            let quantidade = 0;
+
+            for (let numero of numeros) {
+                if (numero % 2 !== 0) {
+                    quantidade++;
+                }
+            }
+
+            return quantidade;
+        }
+
+        function analisarNumeros() {
+            const entrada = document.getElementById("numeros").value;
+
+            if (entrada.trim() === "") {
+                alert("Digite pelo menos um número.");
+                return;
+            }
+
+            const numeros = entrada.split(",").map(numero => Number(numero.trim()));
+
+            const valoresValidos = numeros.every(numero =>
+                Number.isInteger(numero)
+            );
+
+            if (!valoresValidos) {
+                alert("Digite somente números inteiros separados por vírgula.");
+                return;
+            }
+
+            const maior = encontrarMaior(numeros);
+            const menor = encontrarMenor(numeros);
+            const media = calcularMedia(numeros);
+            const pares = contarPares(numeros);
+            const impares = contarImpares(numeros);
+
+            document.getElementById("resultado").innerHTML = `
+                <h2>Resultado</h2>
+                <p><strong>Maior valor:</strong> ${maior}</p>
+                <p><strong>Menor valor:</strong> ${menor}</p>
+                <p><strong>Média:</strong> ${media.toFixed(2)}</p>
+                <p><strong>Quantidade de pares:</strong> ${pares}</p>
+                <p><strong>Quantidade de ímpares:</strong> ${impares}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>

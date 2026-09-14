@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Fatorial Recursivo</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultado {
+            margin-top: 25px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Fatorial Recursivo</h1>
+
+        <label for="numero">
+            Digite um número inteiro não negativo:
+        </label>
+
+        <input
+            type="number"
+            id="numero"
+            min="0"
+            placeholder="Ex: 5"
+        >
+
+        <button onclick="calcularFatorial()">
+            Calcular Fatorial
+        </button>
+
+        <div id="resultado">
+            O resultado aparecerá aqui.
+        </div>
+
+    </div>
+
+
+    <script>
+
+        function fatorial(numero) {
+
+            if (numero === 0 || numero === 1) {
+                return 1;
+            }
+
+            return numero * fatorial(numero - 1);
+        }
+
+
+    
+        function calcularFatorial() {
+
+            const campoNumero = document.getElementById("numero");
+            const resultado = document.getElementById("resultado");
+
+            const numero = Number(campoNumero.value);
+
+
+            if (campoNumero.value === "") {
+                resultado.textContent = "Digite um número.";
+                resultado.style.color = "red";
+                return;
+            }
+
+
+            if (!Number.isInteger(numero)) {
+                resultado.textContent = "Digite um número inteiro.";
+                resultado.style.color = "red";
+                return;
+            }
+
+
+            if (numero < 0) {
+                resultado.textContent =
+                    "Digite um número inteiro não negativo.";
+
+                resultado.style.color = "red";
+                return;
+            }
+
+
+            const resposta = fatorial(numero);
+
+
+            resultado.textContent =
+                `${numero}! = ${resposta}`;
+
+            resultado.style.color = "green";
+        }
+
+    </script>
+
+</body>
+
+</html>

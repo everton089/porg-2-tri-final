@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sequência de Fibonacci</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            line-height: 1.8;
+        }
+
+        .erro {
+            color: red;
+        }
+
+        .sucesso {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Sequência de Fibonacci</h1>
+
+        <p>
+            A sequência de Fibonacci começa com:
+        </p>
+
+        <p>
+            <strong>0, 1, 1, 2, 3, 5, 8, 13, 21...</strong>
+        </p>
+
+        <p>
+            Digite a posição do termo que deseja calcular.
+        </p>
+
+        <label for="numero">Número:</label>
+
+        <input
+            type="number"
+            id="numero"
+            min="0"
+            placeholder="Ex: 10"
+        >
+
+        <button onclick="calcularFibonacci()">
+            Calcular
+        </button>
+
+        <div id="resultado">
+            O resultado aparecerá aqui.
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        function fibonacciRecursivo(n) {
+
+            // Casos-base
+            if (n === 0) {
+                return 0;
+            }
+
+            if (n === 1) {
+                return 1;
+            }
+
+            // Chamada recursiva
+            return fibonacciRecursivo(n - 1) +
+                   fibonacciRecursivo(n - 2);
+        }
+
+
+        function fibonacciIterativo(n) {
+
+            if (n === 0) {
+                return 0;
+            }
+
+            if (n === 1) {
+                return 1;
+            }
+
+            let anterior = 0;
+            let atual = 1;
+
+            for (let i = 2; i <= n; i++) {
+
+                let proximo = anterior + atual;
+
+                anterior = atual;
+                atual = proximo;
+            }
+
+            return atual;
+        }
+
+
+
+        function calcularFibonacci() {
+
+            const campoNumero = document.getElementById("numero");
+            const resultado = document.getElementById("resultado");
+
+            const n = Number(campoNumero.value);
+
+
+            if (campoNumero.value === "") {
+
+                resultado.textContent =
+                    "Digite um número.";
+
+                resultado.className = "erro";
+
+                return;
+            }
+
+
+            if (!Number.isInteger(n)) {
+
+                resultado.textContent =
+                    "Digite um número inteiro.";
+
+                resultado.className = "erro";
+
+                return;
+            }
+
+
+            if (n < 0) {
+
+                resultado.textContent =
+                    "Digite um número maior ou igual a zero.";
+
+                resultado.className = "erro";
+
+                return;
+            }
+
+
+            const resultadoRecursivo =
+                fibonacciRecursivo(n);
+
+
+            const resultadoIterativo =
+                fibonacciIterativo(n);
+
+
+            resultado.className = "sucesso";
+
+            resultado.innerHTML = `
+                <strong>Posição:</strong> ${n}<br><br>
+
+                <strong>Resultado usando recursão:</strong>
+                ${resultadoRecursivo}<br><br>
+
+                <strong>Resultado usando repetição:</strong>
+                ${resultadoIterativo}
+            `;
+        }
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Soma Recursiva</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultado {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            line-height: 1.8;
+        }
+
+        .erro {
+            color: red;
+        }
+
+        .sucesso {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Soma Recursiva de uma Lista</h1>
+
+        <p>
+            Digite números separados por vírgula.
+        </p>
+
+        <p>
+            Exemplo: <strong>10, 20, 5, 3</strong>
+        </p>
+
+        <input
+            type="text"
+            id="numeros"
+            placeholder="Ex: 10, 20, 5, 3"
+        >
+
+        <button onclick="calcularSoma()">
+            Calcular Soma
+        </button>
+
+        <div id="resultado">
+            O resultado aparecerá aqui.
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        function somaRecursiva(lista) {
+
+            if (lista.length === 0) {
+                return 0;
+            }
+
+
+            return lista[0] + somaRecursiva(lista.slice(1));
+        }
+
+
+
+
+        function calcularSoma() {
+
+            const campoNumeros =
+                document.getElementById("numeros");
+
+            const resultado =
+                document.getElementById("resultado");
+
+            const entrada = campoNumeros.value.trim();
+
+
+            if (entrada === "") {
+
+                resultado.textContent =
+                    "Digite pelo menos um número.";
+
+                resultado.className = "erro";
+
+                return;
+            }
+
+
+            const lista = entrada
+                .split(",")
+                .map(numero => Number(numero.trim()));
+
+
+            const valoresValidos = lista.every(
+                numero => !Number.isNaN(numero)
+            );
+
+
+            if (!valoresValidos) {
+
+                resultado.textContent =
+                    "Digite somente números separados por vírgula.";
+
+                resultado.className = "erro";
+
+                return;
+            }
+
+
+            const soma = somaRecursiva(lista);
+
+
+            resultado.className = "sucesso";
+
+            resultado.innerHTML = `
+                <strong>Lista:</strong>
+                [${lista.join(", ")}]
+                <br><br>
+
+                <strong>Soma:</strong>
+                ${soma}
+            `;
+        }
+
+    </script>
+
+</body>
+
+</html>

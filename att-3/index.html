@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Modular</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            min-height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Calculadora Modular</h1>
+
+        <p>Escolha uma operação:</p>
+
+        <button onclick="calcular(1)">1 - Soma</button>
+        <button onclick="calcular(2)">2 - Subtração</button>
+        <button onclick="calcular(3)">3 - Multiplicação</button>
+        <button onclick="calcular(4)">4 - Divisão</button>
+        <button onclick="calcular(5)">5 - Potência</button>
+        <button onclick="calcular(6)">6 - Resto da divisão</button>
+        <button onclick="encerrar()">0 - Encerrar</button>
+
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function somar(a, b) {
+            return a + b;
+        }
+
+        function subtrair(a, b) {
+            return a - b;
+        }
+
+        function multiplicar(a, b) {
+            return a * b;
+        }
+
+        function dividir(a, b) {
+            if (b === 0) {
+                return null;
+            }
+
+            return a / b;
+        }
+
+        function potencia(a, b) {
+            return a ** b;
+        }
+
+        function resto(a, b) {
+            if (b === 0) {
+                return null;
+            }
+
+            return a % b;
+        }
+
+        function lerNumero(mensagem) {
+            let valor;
+
+            do {
+                valor = Number(prompt(mensagem));
+
+                if (Number.isNaN(valor)) {
+                    alert("Digite um número válido.");
+                }
+
+            } while (Number.isNaN(valor));
+
+            return valor;
+        }
+
+        function calcular(opcao) {
+            let numero1;
+            let numero2;
+            let resultado;
+
+            if (opcao < 1 || opcao > 6) {
+                mostrarResultado("Opção inválida.");
+                return;
+            }
+
+            numero1 = lerNumero("Digite o primeiro número:");
+            numero2 = lerNumero("Digite o segundo número:");
+
+            switch (opcao) {
+                case 1:
+                    resultado = somar(numero1, numero2);
+                    break;
+
+                case 2:
+                    resultado = subtrair(numero1, numero2);
+                    break;
+
+                case 3:
+                    resultado = multiplicar(numero1, numero2);
+                    break;
+
+                case 4:
+                    resultado = dividir(numero1, numero2);
+
+                    if (resultado === null) {
+                        mostrarResultado("Erro: não é possível dividir por zero.");
+                        return;
+                    }
+
+                    break;
+
+                case 5:
+                    resultado = potencia(numero1, numero2);
+                    break;
+
+                case 6:
+                    resultado = resto(numero1, numero2);
+
+                    if (resultado === null) {
+                        mostrarResultado("Erro: não é possível calcular o resto com divisor zero.");
+                        return;
+                    }
+
+                    break;
+            }
+
+            mostrarResultado("Resultado: " + resultado);
+        }
+
+        function mostrarResultado(mensagem) {
+            document.getElementById("resultado").textContent = mensagem;
+        }
+
+        function encerrar() {
+            mostrarResultado("Calculadora encerrada.");
+        }
+    </script>
+
+</body>
+</html>

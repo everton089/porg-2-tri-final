@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário</title>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Cadastro de Usuário</h1>
+
+        <form id="formCadastro">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" placeholder="Digite seu nome">
+
+            <label for="idade">Idade:</label>
+            <input type="number" id="idade" placeholder="Digite sua idade">
+
+            <label for="email">E-mail:</label>
+            <input type="email" id="email" placeholder="Digite seu e-mail">
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" placeholder="Digite sua senha">
+
+            <button type="submit">Cadastrar</button>
+        </form>
+
+        <div id="mensagem"></div>
+    </div>
+
+    <script>
+        function validarNome(nome) {
+            return nome.trim() !== "";
+        }
+
+        function validarIdade(idade) {
+            return idade >= 14 && idade <= 120;
+        }
+
+        function validarEmail(email) {
+            const formatoEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return formatoEmail.test(email);
+        }
+
+        function validarSenha(senha) {
+            return senha.length >= 8;
+        }
+
+        function cadastrarUsuario(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById("nome").value;
+            const idade = Number(document.getElementById("idade").value);
+            const email = document.getElementById("email").value;
+            const senha = document.getElementById("senha").value;
+
+            if (!validarNome(nome)) {
+                mostrarMensagem("O nome não pode estar vazio.", "red");
+                return;
+            }
+
+            if (!validarIdade(idade)) {
+                mostrarMensagem("A idade deve estar entre 14 e 120 anos.", "red");
+                return;
+            }
+
+            if (!validarEmail(email)) {
+                mostrarMensagem("Digite um e-mail válido.", "red");
+                return;
+            }
+
+            if (!validarSenha(senha)) {
+                mostrarMensagem("A senha deve possuir pelo menos 8 caracteres.", "red");
+                return;
+            }
+
+            mostrarMensagem("Cadastro realizado com sucesso!", "green");
+
+            document.getElementById("formCadastro").reset();
+        }
+
+        function mostrarMensagem(texto, cor) {
+            const mensagem = document.getElementById("mensagem");
+
+            mensagem.textContent = texto;
+            mensagem.style.color = cor;
+        }
+
+        document
+            .getElementById("formCadastro")
+            .addEventListener("submit", cadastrarUsuario);
+    </script>
+
+</body>
+</html>

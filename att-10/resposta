@@ -1,0 +1,73 @@
+A. Histórico do navegador → Pilha
+A estrutura mais adequada é uma pilha, porque o histórico de navegação segue o princípio LIFO (Last In, First Out).
+
+Quando o usuário visita várias páginas, a página visitada por último é a primeira que deve ser removida quando ele utiliza a função "voltar".
+
+Exemplo:
+
+Google → YouTube → Instagram
+
+Voltar → YouTube
+Voltar → Google
+
+Portanto, a pilha é adequada porque permite adicionar páginas e remover primeiro a página mais recente.
+
+B. Pessoas aguardando atendimento → Fila
+A estrutura mais adequada é uma fila, porque um sistema de atendimento normalmente segue o princípio FIFO (First In, First Out).
+
+Isso significa que a primeira pessoa que chega deve ser a primeira a ser atendida.
+
+Exemplo:
+
+João → Maria → Pedro
+
+Atendimento:
+João → Maria → Pedro
+
+Assim, a fila garante a ordem de chegada das pessoas.
+
+C. Catálogo de produtos → Lista
+A estrutura mais adequada é uma lista, porque um catálogo precisa armazenar vários produtos e permitir operações como adicionar, remover, buscar e consultar produtos.
+
+Por exemplo:
+
+[
+    "Notebook",
+    "Celular",
+    "Teclado",
+    "Mouse"
+]
+
+Uma lista é mais flexível nesse caso, pois os produtos podem ser acessados e manipulados conforme a necessidade do sistema.
+
+D. Função "desfazer" de um editor de texto → Pilha
+A estrutura mais adequada é uma pilha.
+
+Isso acontece porque a última ação realizada pelo usuário deve ser a primeira ação desfeita.
+
+Por exemplo:
+
+1. Digitar "Olá"
+2. Digitar " mundo"
+3. Aplicar negrito
+
+Ao clicar em "desfazer", a última ação, que foi aplicar negrito, deve ser desfeita primeiro.
+
+Aplicar negrito → desfazer
+Digitar " mundo" → desfazer
+Digitar "Olá" → desfazer
+
+Isso corresponde ao princípio LIFO das pilhas.
+
+E. Playlist de músicas que pode ser acessada por posição → Lista
+A estrutura mais adequada é uma lista, porque as músicas podem ser organizadas em posições e acessadas diretamente.
+
+Por exemplo:
+
+Posição 0 → Música A
+Posição 1 → Música B
+Posição 2 → Música C
+Posição 3 → Música D
+
+Se o usuário quiser acessar a música da posição 2, pode acessar diretamente esse elemento da lista.
+

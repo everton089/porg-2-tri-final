@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Histórico de Navegação</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: 40px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .entrada {
+            display: flex;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            background-color: #007bff;
+            font-size: 14px;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .btn-voltar {
+            background-color: #dc3545;
+        }
+
+        .btn-atual {
+            background-color: #28a745;
+        }
+
+        .btn-historico {
+            background-color: #6f42c1;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        #paginaAtual {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #e8f5e9;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        #historico {
+            margin-top: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .item-historico {
+            padding: 10px;
+            margin: 5px 0;
+            background-color: white;
+            border-radius: 5px;
+            border-left: 4px solid #007bff;
+        }
+
+        @media (max-width: 600px) {
+            .entrada {
+                flex-direction: column;
+            }
+
+            .botoes {
+                flex-direction: column;
+            }
+
+            .botoes button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Histórico de Navegação</h1>
+
+        <p>
+            Digite o endereço da página que deseja visitar:
+        </p>
+
+        <div class="entrada">
+
+            <input
+                type="text"
+                id="pagina"
+                placeholder="Ex: google.com"
+            >
+
+            <button onclick="visitarPagina()">
+                Visitar
+            </button>
+
+        </div>
+
+
+        <div class="botoes">
+
+            <button
+                class="btn-atual"
+                onclick="visualizarPaginaAtual()"
+            >
+                Página Atual
+            </button>
+
+            <button
+                class="btn-voltar"
+                onclick="voltarPagina()"
+            >
+                Voltar
+            </button>
+
+            <button
+                class="btn-historico"
+                onclick="exibirHistorico()"
+            >
+                Exibir Histórico
+            </button>
+
+        </div>
+
+
+        <div id="mensagem"></div>
+
+
+        <div id="paginaAtual">
+            Nenhuma página visitada.
+        </div>
+
+
+        <div id="historico">
+            <strong>Histórico:</strong>
+            <p>Nenhuma página no histórico.</p>
+        </div>
+
+    </div>
+
+
+    <script>
+
+     
+
+        let historico = [];
+
+
+
+        function visitarPagina() {
+
+            const campo =
+                document.getElementById("pagina");
+
+            const pagina =
+                campo.value.trim();
+
+
+            if (pagina === "") {
+
+                mostrarMensagem(
+                    "Digite uma página.",
+                    "red"
+                );
+
+                return;
+            }
+
+
+            historico.push(pagina);
+
+
+            campo.value = "";
+
+
+            mostrarMensagem(
+                "Página visitada com sucesso!",
+                "green"
+            );
+
+
+            visualizarPaginaAtual();
+
+            exibirHistorico();
+        }
+
+
+        
+
+        function visualizarPaginaAtual() {
+
+            const elemento =
+                document.getElementById("paginaAtual");
+
+
+            if (historico.length === 0) {
+
+                elemento.textContent =
+                    "Nenhuma página visitada.";
+
+                return;
+            }
+
+
+            const paginaAtual =
+                historico[historico.length - 1];
+
+
+            elemento.textContent =
+                "Página atual: " + paginaAtual;
+        }
+
+
+        
+
+        function voltarPagina() {
+
+    
+            if (historico.length <= 1) {
+
+                mostrarMensagem(
+                    "Não há página anterior.",
+                    "red"
+                );
+
+                return;
+            }
+
+
+            const paginaRemovida =
+                historico.pop();
+
+
+            mostrarMensagem(
+                "Voltando de: " + paginaRemovida,
+                "green"
+            );
+
+
+            visualizarPaginaAtual();
+
+            exibirHistorico();
+        }
+
+
+        function exibirHistorico() {
+
+            const elemento =
+                document.getElementById("historico");
+
+
+            if (historico.length === 0) {
+
+                elemento.innerHTML = `
+                    <strong>Histórico:</strong>
+                    <p>Nenhuma página no histórico.</p>
+                `;
+
+                return;
+            }
+
+
+            let html =
+                "<strong>Histórico:</strong>";
+
+
+            for (
+                let i = historico.length - 1;
+                i >= 0;
+                i--
+            ) {
+
+                html += `
+                    <div class="item-historico">
+                        ${i + 1} - ${historico[i]}
+                    </div>
+                `;
+            }
+
+
+            elemento.innerHTML = html;
+        }
+
+
+        function mostrarMensagem(texto, cor) {
+
+            const mensagem =
+                document.getElementById("mensagem");
+
+            mensagem.textContent = texto;
+
+            mensagem.style.color = cor;
+        }
+
+
+    
+
+        document
+            .getElementById("pagina")
+            .addEventListener(
+                "keypress",
+                function(event) {
+
+                    if (event.key === "Enter") {
+                        visitarPagina();
+                    }
+                }
+            );
+
+    </script>
+
+</body>
+
+</html>
+<!-- Por que uma pilha é adequada?
+Uma pilha segue o princípio LIFO — Last In, First Out, que significa "o último que entra é o primeiro que sai".
+
+Isso combina perfeitamente com o funcionamento do botão Voltar de um navegador: a página visitada mais recentemente é a primeira página que deve ser removida quando voltamos. -->

@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Gerenciador de Tarefas</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 30px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .entrada {
+            display: flex;
+            gap: 10px;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            background-color: #007bff;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .btn-remover {
+            background-color: #dc3545;
+        }
+
+        .btn-concluir {
+            background-color: #28a745;
+        }
+
+        .btn-alterar {
+            background-color: #ffc107;
+            color: #000;
+        }
+
+        #listaTarefas {
+            margin-top: 25px;
+        }
+
+        .tarefa {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border-left: 5px solid #007bff;
+        }
+
+        .tarefa-concluida {
+            border-left-color: #28a745;
+            background-color: #e8f5e9;
+        }
+
+        .tarefa-concluida .descricao {
+            text-decoration: line-through;
+            color: #777;
+        }
+
+        .botoes {
+            display: flex;
+            gap: 5px;
+        }
+
+        #quantidade {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .entrada {
+                flex-direction: column;
+            }
+
+            .tarefa {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .botoes {
+                width: 100%;
+            }
+
+            .botoes button {
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Gerenciador de Tarefas</h1>
+
+        <div class="entrada">
+            <input
+                type="text"
+                id="novaTarefa"
+                placeholder="Digite uma tarefa..."
+            >
+
+            <button onclick="adicionarTarefa()">
+                Adicionar
+            </button>
+        </div>
+
+        <div id="mensagem"></div>
+
+        <div id="listaTarefas"></div>
+
+        <div id="quantidade">
+            Total de tarefas: 0
+        </div>
+
+    </div>
+
+
+    <script>
+
+
+        let tarefas = [];
+
+        let proximoId = 1;
+
+
+        function adicionarTarefa() {
+
+            const campo =
+                document.getElementById("novaTarefa");
+
+            const descricao = campo.value.trim();
+
+
+            if (descricao === "") {
+
+                mostrarMensagem(
+                    "Digite uma tarefa.",
+                    "red"
+                );
+
+                return;
+            }
+
+
+            const tarefa = {
+
+                id: proximoId,
+
+                descricao: descricao,
+
+                concluida: false
+            };
+
+
+            tarefas.push(tarefa);
+
+            proximoId++;
+
+
+           
+            campo.value = "";
+
+
+            mostrarMensagem(
+                "Tarefa adicionada com sucesso!",
+                "green"
+            );
+
+
+            listarTarefas();
+        }
+
+
+
+        function listarTarefas() {
+
+            const lista =
+                document.getElementById("listaTarefas");
+
+
+            lista.innerHTML = "";
+
+            if (tarefas.length === 0) {
+
+                lista.innerHTML =
+                    "<p>Nenhuma tarefa cadastrada.</p>";
+
+                atualizarQuantidade();
+
+                return;
+            }
+
+
+            tarefas.forEach(function(tarefa) {
+
+                const elemento =
+                    document.createElement("div");
+
+                elemento.className = "tarefa";
+
+
+               
+                if (tarefa.concluida) {
+                    elemento.classList.add(
+                        "tarefa-concluida"
+                    );
+                }
+
+
+                elemento.innerHTML = `
+
+                    <span class="descricao">
+                        ${tarefa.id} - ${tarefa.descricao}
+                    </span>
+
+                    <div class="botoes">
+
+                        <button
+                            class="btn-concluir"
+                            onclick="marcarConcluida(${tarefa.id})"
+                        >
+                            ${tarefa.concluida
+                                ? "Desmarcar"
+                                : "Concluir"}
+                        </button>
+
+                        <button
+                            class="btn-alterar"
+                            onclick="alterarTarefa(${tarefa.id})"
+                        >
+                            Alterar
+                        </button>
+
+                        <button
+                            class="btn-remover"
+                            onclick="removerTarefa(${tarefa.id})"
+                        >
+                            Remover
+                        </button>
+
+                    </div>
+                `;
+
+
+                lista.appendChild(elemento);
+            });
+
+
+            atualizarQuantidade();
+        }
+
+
+
+
+        function buscarTarefa() {
+
+            const termo =
+                prompt("Digite o nome da tarefa que deseja buscar:");
+
+            if (termo === null) {
+                return;
+            }
+
+
+            const busca = termo.trim().toLowerCase();
+
+
+            if (busca === "") {
+
+                mostrarMensagem(
+                    "Digite uma tarefa para buscar.",
+                    "red"
+                );
+
+                return;
+            }
+
+
+            const resultados = tarefas.filter(
+                function(tarefa) {
+                    return tarefa.descricao
+                        .toLowerCase()
+                        .includes(busca);
+                }
+            );
+
+
+            if (resultados.length === 0) {
+
+                mostrarMensagem(
+                    "Nenhuma tarefa encontrada.",
+                    "red"
+                );
+
+                return;
+            }
+
+
+            let texto = "Tarefas encontradas:\n\n";
+
+
+            resultados.forEach(
+                function(tarefa) {
+
+                    texto +=
+                        `${tarefa.id} - ${tarefa.descricao}`;
+
+                    if (tarefa.concluida) {
+                        texto += " (Concluída)";
+                    }
+
+                    texto += "\n";
+                }
+            );
+
+
+            alert(texto);
+        }
+
+
+
+        function alterarTarefa(id) {
+
+            const tarefa =
+                tarefas.find(function(tarefa) {
+                    return tarefa.id === id;
+                });
+
+
+            if (!tarefa) {
+
+                mostrarMensagem(
+                    "Tarefa não encontrada.",
+                    "red"
+                );
+
+                return;
+            }
+
+
+            const novaDescricao =
+                prompt(
+                    "Digite a nova descrição:",
+                    tarefa.descricao
+                );
+
+
+            if (novaDescricao === null) {
+                return;
+            }
+
+
+            if (novaDescricao.trim() === "") {
+
+                mostrarMensagem(
+                    "A tarefa não pode ficar vazia.",
+                    "red"
+                );
+
+                return;
+            }
+
+
+            tarefa.descricao =
+                novaDescricao.trim();
+
+
+            mostrarMensagem(
+                "Tarefa alterada com sucesso!",
+                "green"
+            );
+
+
+            listarTarefas();
+        }
+
+
+
+        function removerTarefa(id) {
+
+            const tarefa =
+                tarefas.find(function(tarefa) {
+                    return tarefa.id === id;
+                });
+
+
+            if (!tarefa) {
+                return;
+            }
+
+
+            const confirmar =
+                confirm(
+                    `Deseja remover a tarefa "${tarefa.descricao}"?`
+                );
+
+
+            if (!confirmar) {
+                return;
+            }
+
+
+            tarefas = tarefas.filter(
+                function(tarefa) {
+                    return tarefa.id !== id;
+                }
+            );
+
+
+            mostrarMensagem(
+                "Tarefa removida com sucesso!",
+                "green"
+            );
+
+
+            listarTarefas();
+        }
+
+
+ 
+
+        function marcarConcluida(id) {
+
+            const tarefa =
+                tarefas.find(function(tarefa) {
+                    return tarefa.id === id;
+                });
+
+
+            if (!tarefa) {
+                return;
+            }
+
+
+            tarefa.concluida =
+                !tarefa.concluida;
+
+
+            listarTarefas();
+        }
+
+
+
+        function atualizarQuantidade() {
+
+            const quantidade =
+                document.getElementById("quantidade");
+
+
+            quantidade.textContent =
+                `Total de tarefas: ${tarefas.length}`;
+        }
+
+
+        function mostrarMensagem(texto, cor) {
+
+            const mensagem =
+                document.getElementById("mensagem");
+
+            mensagem.textContent = texto;
+
+            mensagem.style.color = cor;
+        }
+
+
+
+        document
+            .getElementById("novaTarefa")
+            .addEventListener(
+                "keypress",
+                function(event) {
+
+                    if (event.key === "Enter") {
+                        adicionarTarefa();
+                    }
+                }
+            );
+
+
+        listarTarefas();
+
+    </script>
+
+</body>
+
+</html>
