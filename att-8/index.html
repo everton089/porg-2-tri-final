@@ -98,6 +98,12 @@
             border-left: 4px solid #007bff;
         }
 
+        .pagina-atual {
+            border-left-color: #28a745;
+            background-color: #e8f5e9;
+            font-weight: bold;
+        }
+
         #mensagem {
             margin-top: 15px;
             font-weight: bold;
@@ -190,9 +196,12 @@
 
     <script>
 
+      
 
         let historico = [];
 
+
+        let paginaAtual = -1;
 
 
 
@@ -205,7 +214,7 @@
                 campo.value.trim();
 
 
-    
+  
             if (pagina === "") {
 
                 mostrarMensagem(
@@ -217,8 +226,12 @@
             }
 
 
-
+       
             historico.push(pagina);
+
+
+            paginaAtual =
+                historico.length - 1;
 
 
          
@@ -231,8 +244,9 @@
             );
 
 
-     
             atualizarPaginaAtual();
+
+            atualizarHistorico();
         }
 
 
@@ -243,7 +257,7 @@
                 document.getElementById("paginaAtual");
 
 
-            if (historico.length === 0) {
+            if (paginaAtual === -1) {
 
                 elemento.textContent =
                     "Nenhuma página visitada.";
@@ -252,20 +266,16 @@
             }
 
 
-           
-            const paginaAtual =
-                historico[historico.length - 1];
-
-
             elemento.textContent =
-                "Página atual: " + paginaAtual;
+                "Página atual: " +
+                historico[paginaAtual];
         }
 
 
 
         function voltarPagina() {
 
-            if (historico.length <= 1) {
+            if (paginaAtual <= 0) {
 
                 mostrarMensagem(
                     "Não há página anterior.",
@@ -275,30 +285,22 @@
                 return;
             }
 
-
-            const paginaRemovida =
-                historico.pop();
+o.
+            paginaAtual--;
 
 
             mostrarMensagem(
-                "Voltando de: " + paginaRemovida,
+                "Você voltou para: " +
+                historico[paginaAtual],
                 "green"
             );
 
 
             atualizarPaginaAtual();
 
-
-            if (
-                !document
-                    .getElementById("historico")
-                    .classList
-                    .contains("oculto")
-            ) {
-
-                exibirHistorico();
-            }
+            atualizarHistorico();
         }
+
 
 
         function exibirHistorico() {
@@ -319,6 +321,16 @@
 
             elemento.classList.remove("oculto");
 
+            atualizarHistorico();
+        }
+
+
+
+        function atualizarHistorico() {
+
+            const elemento =
+                document.getElementById("historico");
+
 
             if (historico.length === 0) {
 
@@ -338,26 +350,41 @@
                 "<strong>Histórico:</strong>";
 
 
-   
+
             for (
-                let i = historico.length - 1;
-                i >= 0;
-                i--
+                let i = 0;
+                i < historico.length;
+                i++
             ) {
 
-                html += `
-                    <div class="item-historico">
+                if (i === paginaAtual) {
 
-                        ${i + 1} -
-                        ${historico[i]}
+                    html += `
+                        <div
+                            class="item-historico pagina-atual"
+                        >
+                            ${i + 1} -
+                            ${historico[i]}
+                            ← Página atual
+                        </div>
+                    `;
 
-                    </div>
-                `;
+                } else {
+
+                    html += `
+                        <div class="item-historico">
+                            ${i + 1} -
+                            ${historico[i]}
+                        </div>
+                    `;
+                }
             }
 
 
             elemento.innerHTML = html;
         }
+
+
 
 
         function mostrarMensagem(texto, cor) {
@@ -393,7 +420,6 @@
 
 </html>
 
-</html>
 <!-- Por que uma pilha é adequada?
 Uma pilha segue o princípio LIFO — Last In, First Out, que significa "o último que entra é o primeiro que sai".
 
