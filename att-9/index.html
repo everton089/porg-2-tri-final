@@ -2,18 +2,26 @@
 <html lang="pt-BR">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Sistema de Atendimento</title>
 
+
     <style>
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
             margin: 0;
             padding: 30px;
         }
+
 
         .container {
             max-width: 700px;
@@ -24,10 +32,12 @@
             box-shadow: 0 0 10px #ccc;
         }
 
+
         h1 {
             text-align: center;
             color: #333;
         }
+
 
         label {
             display: block;
@@ -36,42 +46,16 @@
             font-weight: bold;
         }
 
+
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             box-sizing: border-box;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
         }
 
-        button {
-            padding: 12px 18px;
-            margin-top: 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            color: white;
-            background-color: #007bff;
-            font-size: 14px;
-        }
-
-        button:hover {
-            opacity: 0.85;
-        }
-
-        .btn-chamar {
-            background-color: #28a745;
-        }
-
-        .btn-proximo {
-            background-color: #ffc107;
-            color: #000;
-        }
-
-        .btn-fila {
-            background-color: #6f42c1;
-        }
 
         .botoes {
             display: flex;
@@ -80,12 +64,50 @@
             margin-top: 15px;
         }
 
+
+        button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 14px;
+        }
+
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+
+        .btn-adicionar {
+            background-color: #007bff;
+        }
+
+
+        .btn-chamar {
+            background-color: #28a745;
+        }
+
+
+        .btn-proximo {
+            background-color: #ffc107;
+            color: black;
+        }
+
+
+        .btn-fila {
+            background-color: #6f42c1;
+        }
+
+
         #mensagem {
             margin-top: 20px;
             padding: 15px;
             border-radius: 5px;
             font-weight: bold;
         }
+
 
         #proximo {
             margin-top: 20px;
@@ -94,12 +116,14 @@
             border-radius: 5px;
         }
 
+
         #fila {
             margin-top: 20px;
             padding: 20px;
             background-color: #f8f9fa;
             border-radius: 5px;
         }
+
 
         .pessoa {
             padding: 15px;
@@ -109,13 +133,26 @@
             border-radius: 5px;
         }
 
-        #quantidade {
-            margin-top: 20px;
-            font-size: 18px;
-            font-weight: bold;
+
+        .primeiro {
+            border-left-color: #28a745;
+            background-color: #e8f5e9;
         }
 
+
+        #quantidade {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+
         @media (max-width: 600px) {
+
             .botoes {
                 flex-direction: column;
             }
@@ -123,21 +160,27 @@
             .botoes button {
                 width: 100%;
             }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
     <div class="container">
+
 
         <h1>Sistema de Atendimento</h1>
 
-        <h2>Adicionar pessoa à fila</h2>
 
         <label for="nome">
-            Nome:
+            Nome da pessoa:
         </label>
+
 
         <input
             type="text"
@@ -148,9 +191,13 @@
 
         <div class="botoes">
 
-            <button onclick="adicionarPessoa()">
+            <button
+                class="btn-adicionar"
+                onclick="adicionarPessoa()"
+            >
                 Adicionar à fila
             </button>
+
 
             <button
                 class="btn-chamar"
@@ -159,12 +206,14 @@
                 Chamar próxima
             </button>
 
+
             <button
                 class="btn-proximo"
                 onclick="consultarProximo()"
             >
                 Consultar próximo
             </button>
+
 
             <button
                 class="btn-fila"
@@ -176,24 +225,42 @@
         </div>
 
 
-        <div id="mensagem"></div>
+        <div id="mensagem">
+        </div>
 
 
         <div id="proximo">
-            <strong>Próximo:</strong>
-            Nenhuma pessoa na fila.
+
+            <strong>
+                Próxima pessoa:
+            </strong>
+
+            <p>
+                Ninguém está aguardando.
+            </p>
+
         </div>
 
 
         <div id="fila">
-            <strong>Fila:</strong>
-            <p>Nenhuma pessoa aguardando.</p>
+
+            <strong>
+                Pessoas aguardando:
+            </strong>
+
+            <p>
+                A fila está vazia.
+            </p>
+
         </div>
 
 
         <div id="quantidade">
+
             Pessoas aguardando: 0
+
         </div>
+
 
     </div>
 
@@ -201,16 +268,22 @@
     <script>
 
 
+
         let fila = [];
+
 
         let proximaSenha = 1;
 
 
 
+      
+
         function adicionarPessoa() {
+
 
             const campoNome =
                 document.getElementById("nome");
+
 
             const nome =
                 campoNome.value.trim();
@@ -237,7 +310,8 @@
 
                 nome: nome,
 
-                horarioEntrada: horario
+                horario: horario
+
             };
 
 
@@ -251,18 +325,21 @@
 
 
             mostrarMensagem(
-                `Pessoa adicionada! Senha: ${pessoa.senha}`,
+                "Pessoa adicionada à fila! Senha: " +
+                pessoa.senha,
                 "green"
             );
 
 
             atualizarTela();
+
         }
+
 
 
         function chamarProxima() {
 
-            // Verifica se existe alguém na fila
+
             if (fila.length === 0) {
 
                 mostrarMensagem(
@@ -279,18 +356,22 @@
 
 
             mostrarMensagem(
-                `Chamando senha ${pessoa.senha} - ${pessoa.nome}`,
+                "Chamando senha " +
+                pessoa.senha +
+                " - " +
+                pessoa.nome,
                 "green"
             );
 
 
             atualizarTela();
+
         }
 
 
 
-
         function consultarProximo() {
+
 
             const elemento =
                 document.getElementById("proximo");
@@ -299,29 +380,63 @@
             if (fila.length === 0) {
 
                 elemento.innerHTML = `
-                    <strong>Próximo:</strong>
-                    Nenhuma pessoa na fila.
+
+                    <strong>
+                        Próxima pessoa:
+                    </strong>
+
+                    <p>
+                        Ninguém está aguardando.
+                    </p>
+
                 `;
 
                 return;
             }
 
 
-            const pessoa = fila[0];
+            const pessoa =
+                fila[0];
 
 
             elemento.innerHTML = `
-                <strong>Próximo:</strong><br><br>
 
-                Senha: ${pessoa.senha}<br>
-                Nome: ${pessoa.nome}<br>
-                Horário de entrada: ${pessoa.horarioEntrada}
+                <strong>
+                    Próxima pessoa:
+                </strong>
+
+                <p>
+
+                    <strong>
+                        Senha:
+                    </strong>
+
+                    ${pessoa.senha}
+
+                    <br>
+
+                    <strong>
+                        Nome:
+                    </strong>
+
+                    ${pessoa.nome}
+
+                    <br>
+
+                    <strong>
+                        Entrada:
+                    </strong>
+
+                    ${pessoa.horario}
+
+                </p>
+
             `;
+
         }
 
-
-
         function mostrarFila() {
+
 
             const elemento =
                 document.getElementById("fila");
@@ -330,76 +445,149 @@
             if (fila.length === 0) {
 
                 elemento.innerHTML = `
-                    <strong>Fila:</strong>
-                    <p>Nenhuma pessoa aguardando.</p>
+
+                    <strong>
+                        Pessoas aguardando:
+                    </strong>
+
+                    <p>
+                        A fila está vazia.
+                    </p>
+
                 `;
 
                 return;
             }
 
 
-            let html =
-                "<strong>Fila de atendimento:</strong>";
+            let html = `
+
+                <strong>
+                    Pessoas aguardando:
+                </strong>
+
+            `;
 
 
-            fila.forEach(function(pessoa, indice) {
+            fila.forEach(
+                function(pessoa, indice) {
 
-                html += `
-                    <div class="pessoa">
 
-                        <strong>
-                            ${indice + 1}º da fila
-                        </strong>
+                    let classe = "";
 
-                        <br><br>
 
-                        Senha: ${pessoa.senha}<br>
+                    if (indice === 0) {
+                        classe = "primeiro";
+                    }
 
-                        Nome: ${pessoa.nome}<br>
 
-                        Horário de entrada:
-                        ${pessoa.horarioEntrada}
+                    html += `
 
-                    </div>
-                `;
-            });
+                        <div
+                            class="pessoa ${classe}"
+                        >
+
+                            <strong>
+                                ${indice + 1}º da fila
+                            </strong>
+
+                            <br><br>
+
+                            <strong>
+                                Senha:
+                            </strong>
+
+                            ${pessoa.senha}
+
+                            <br>
+
+                            <strong>
+                                Nome:
+                            </strong>
+
+                            ${pessoa.nome}
+
+                            <br>
+
+                            <strong>
+                                Horário de entrada:
+                            </strong>
+
+                            ${pessoa.horario}
+
+                            ${
+                                indice === 0
+                                ? "<br><br><strong>← PRÓXIMO</strong>"
+                                : ""
+                            }
+
+                        </div>
+
+                    `;
+
+                }
+            );
 
 
             elemento.innerHTML = html;
+
         }
 
 
 
+
+
         function atualizarQuantidade() {
+
 
             const elemento =
                 document.getElementById("quantidade");
 
 
             elemento.textContent =
-                `Pessoas aguardando: ${fila.length}`;
+                "Pessoas aguardando: " +
+                fila.length;
 
+        }
+
+
+
+
+        function atualizarTela() {
+
+            atualizarQuantidade();
 
             consultarProximo();
 
             mostrarFila();
+
         }
 
 
 
-        function mostrarMensagem(texto, cor) {
+
+        function mostrarMensagem(
+            texto,
+            cor
+        ) {
+
 
             const elemento =
                 document.getElementById("mensagem");
 
-            elemento.textContent = texto;
 
-            elemento.style.color = cor;
+            elemento.textContent =
+                texto;
+
+
+            elemento.style.color =
+                cor;
+
         }
 
 
-       
 
+   
         document
             .getElementById("nome")
             .addEventListener(
@@ -407,26 +595,19 @@
                 function(event) {
 
                     if (event.key === "Enter") {
+
                         adicionarPessoa();
+
                     }
+
                 }
             );
 
 
-        atualizarQuantidade();
+        atualizarTela();
 
     </script>
 
 </body>
 
 </html>
-<!-- Por que uma fila é mais adequada que uma pilha?
-Uma fila segue o princípio FIFO (First In, First Out), que significa:
-
-O primeiro que entra é o primeiro que sai.
-
-Isso é exatamente o comportamento esperado em um sistema de atendimento. Quem chegou primeiro deve ser atendido primeiro, 
-respeitando a ordem de chegada.
-
-Uma pilha, por outro lado, segue o princípio LIFO (Last In, First Out).
- Nela, a última pessoa que entrasse seria a primeira a ser atendida, o que não seria adequado para uma fila de atendimento comum. -->
