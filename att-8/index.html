@@ -50,12 +50,15 @@
             border-radius: 5px;
             cursor: pointer;
             color: white;
-            background-color: #007bff;
             font-size: 14px;
         }
 
         button:hover {
             opacity: 0.85;
+        }
+
+        .btn-visitar {
+            background-color: #007bff;
         }
 
         .btn-voltar {
@@ -83,6 +86,11 @@
             font-weight: bold;
         }
 
+        #mensagem {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
         #historico {
             margin-top: 25px;
             padding: 20px;
@@ -91,21 +99,16 @@
         }
 
         .item-historico {
-            padding: 10px;
-            margin: 5px 0;
+            padding: 12px;
+            margin: 6px 0;
             background-color: white;
             border-radius: 5px;
             border-left: 4px solid #007bff;
         }
 
         .pagina-atual {
-            border-left-color: #28a745;
             background-color: #e8f5e9;
-            font-weight: bold;
-        }
-
-        #mensagem {
-            margin-top: 15px;
+            border-left-color: #28a745;
             font-weight: bold;
         }
 
@@ -143,6 +146,7 @@
             Digite o endereço da página que deseja visitar:
         </p>
 
+
         <div class="entrada">
 
             <input
@@ -151,7 +155,10 @@
                 placeholder="Ex: google.com"
             >
 
-            <button onclick="visitarPagina()">
+            <button
+                class="btn-visitar"
+                onclick="visitarPagina()"
+            >
                 Visitar
             </button>
 
@@ -196,26 +203,25 @@
 
     <script>
 
-      
-
         let historico = [];
 
 
-        let paginaAtual = -1;
+
+        let indiceAtual = -1;
 
 
+  
 
         function visitarPagina() {
 
             const campo =
                 document.getElementById("pagina");
 
-            const pagina =
+            const nomePagina =
                 campo.value.trim();
 
 
-  
-            if (pagina === "") {
+            if (nomePagina === "") {
 
                 mostrarMensagem(
                     "Digite uma página.",
@@ -226,15 +232,14 @@
             }
 
 
-       
-            historico.push(pagina);
+            historico.push(nomePagina);
 
 
-            paginaAtual =
+            indiceAtual =
                 historico.length - 1;
 
 
-         
+      
             campo.value = "";
 
 
@@ -250,48 +255,30 @@
         }
 
 
-
-        function atualizarPaginaAtual() {
-
-            const elemento =
-                document.getElementById("paginaAtual");
-
-
-            if (paginaAtual === -1) {
-
-                elemento.textContent =
-                    "Nenhuma página visitada.";
-
-                return;
-            }
-
-
-            elemento.textContent =
-                "Página atual: " +
-                historico[paginaAtual];
-        }
-
-
+   
 
         function voltarPagina() {
 
-            if (paginaAtual <= 0) {
+        
+            if (indiceAtual <= 0) {
 
                 mostrarMensagem(
-                    "Não há página anterior.",
+                    "Não existe uma página anterior.",
                     "red"
                 );
 
                 return;
             }
 
-o.
-            paginaAtual--;
+
+  
+            indiceAtual =
+                indiceAtual - 1;
 
 
             mostrarMensagem(
                 "Você voltou para: " +
-                historico[paginaAtual],
+                historico[indiceAtual],
                 "green"
             );
 
@@ -302,6 +289,30 @@ o.
         }
 
 
+    
+
+        function atualizarPaginaAtual() {
+
+            const elemento =
+                document.getElementById("paginaAtual");
+
+
+            if (indiceAtual === -1) {
+
+                elemento.textContent =
+                    "Nenhuma página visitada.";
+
+                return;
+            }
+
+
+            elemento.textContent =
+                "Página atual: " +
+                historico[indiceAtual];
+        }
+
+
+
 
         function exibirHistorico() {
 
@@ -309,9 +320,14 @@ o.
                 document.getElementById("historico");
 
 
+        
             if (
-                !elemento.classList.contains("oculto")
+                elemento.classList.contains("oculto")
             ) {
+
+                elemento.classList.remove("oculto");
+
+            } else {
 
                 elemento.classList.add("oculto");
 
@@ -319,11 +335,8 @@ o.
             }
 
 
-            elemento.classList.remove("oculto");
-
             atualizarHistorico();
         }
-
 
 
         function atualizarHistorico() {
@@ -350,14 +363,13 @@ o.
                 "<strong>Histórico:</strong>";
 
 
-
             for (
                 let i = 0;
                 i < historico.length;
                 i++
             ) {
 
-                if (i === paginaAtual) {
+                if (i === indiceAtual) {
 
                     html += `
                         <div
@@ -386,7 +398,6 @@ o.
 
 
 
-
         function mostrarMensagem(texto, cor) {
 
             const mensagem =
@@ -396,7 +407,6 @@ o.
 
             mensagem.style.color = cor;
         }
-
 
 
         document
@@ -419,6 +429,7 @@ o.
 </body>
 
 </html>
+
 
 <!-- Por que uma pilha é adequada?
 Uma pilha segue o princípio LIFO — Last In, First Out, que significa "o último que entra é o primeiro que sai".
