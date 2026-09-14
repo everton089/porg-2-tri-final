@@ -8,6 +8,7 @@
     <title>Histórico de Navegação</title>
 
     <style>
+
         body {
             font-family: Arial, sans-serif;
             background-color: #f2f2f2;
@@ -61,10 +62,6 @@
             background-color: #dc3545;
         }
 
-        .btn-atual {
-            background-color: #28a745;
-        }
-
         .btn-historico {
             background-color: #6f42c1;
         }
@@ -93,11 +90,6 @@
             border-radius: 5px;
         }
 
-        #mensagem {
-            margin-top: 15px;
-            font-weight: bold;
-        }
-
         .item-historico {
             padding: 10px;
             margin: 5px 0;
@@ -106,7 +98,17 @@
             border-left: 4px solid #007bff;
         }
 
+        #mensagem {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        .oculto {
+            display: none;
+        }
+
         @media (max-width: 600px) {
+
             .entrada {
                 flex-direction: column;
             }
@@ -118,8 +120,11 @@
             .botoes button {
                 width: 100%;
             }
+
         }
+
     </style>
+
 </head>
 
 <body>
@@ -150,13 +155,6 @@
         <div class="botoes">
 
             <button
-                class="btn-atual"
-                onclick="visualizarPaginaAtual()"
-            >
-                Página Atual
-            </button>
-
-            <button
                 class="btn-voltar"
                 onclick="voltarPagina()"
             >
@@ -181,9 +179,10 @@
         </div>
 
 
-        <div id="historico">
-            <strong>Histórico:</strong>
-            <p>Nenhuma página no histórico.</p>
+        <div
+            id="historico"
+            class="oculto"
+        >
         </div>
 
     </div>
@@ -191,9 +190,9 @@
 
     <script>
 
-     
 
         let historico = [];
+
 
 
 
@@ -206,6 +205,7 @@
                 campo.value.trim();
 
 
+    
             if (pagina === "") {
 
                 mostrarMensagem(
@@ -217,9 +217,11 @@
             }
 
 
+
             historico.push(pagina);
 
 
+         
             campo.value = "";
 
 
@@ -229,15 +231,13 @@
             );
 
 
-            visualizarPaginaAtual();
-
-            exibirHistorico();
+     
+            atualizarPaginaAtual();
         }
 
 
-        
 
-        function visualizarPaginaAtual() {
+        function atualizarPaginaAtual() {
 
             const elemento =
                 document.getElementById("paginaAtual");
@@ -252,6 +252,7 @@
             }
 
 
+           
             const paginaAtual =
                 historico[historico.length - 1];
 
@@ -261,11 +262,9 @@
         }
 
 
-        
 
         function voltarPagina() {
 
-    
             if (historico.length <= 1) {
 
                 mostrarMensagem(
@@ -287,9 +286,18 @@
             );
 
 
-            visualizarPaginaAtual();
+            atualizarPaginaAtual();
 
-            exibirHistorico();
+
+            if (
+                !document
+                    .getElementById("historico")
+                    .classList
+                    .contains("oculto")
+            ) {
+
+                exibirHistorico();
+            }
         }
 
 
@@ -299,11 +307,27 @@
                 document.getElementById("historico");
 
 
+            if (
+                !elemento.classList.contains("oculto")
+            ) {
+
+                elemento.classList.add("oculto");
+
+                return;
+            }
+
+
+            elemento.classList.remove("oculto");
+
+
             if (historico.length === 0) {
 
                 elemento.innerHTML = `
                     <strong>Histórico:</strong>
-                    <p>Nenhuma página no histórico.</p>
+
+                    <p>
+                        Nenhuma página visitada.
+                    </p>
                 `;
 
                 return;
@@ -314,6 +338,7 @@
                 "<strong>Histórico:</strong>";
 
 
+   
             for (
                 let i = historico.length - 1;
                 i >= 0;
@@ -322,7 +347,10 @@
 
                 html += `
                     <div class="item-historico">
-                        ${i + 1} - ${historico[i]}
+
+                        ${i + 1} -
+                        ${historico[i]}
+
                     </div>
                 `;
             }
@@ -343,7 +371,6 @@
         }
 
 
-    
 
         document
             .getElementById("pagina")
@@ -352,14 +379,19 @@
                 function(event) {
 
                     if (event.key === "Enter") {
+
                         visitarPagina();
+
                     }
+
                 }
             );
 
     </script>
 
 </body>
+
+</html>
 
 </html>
 <!-- Por que uma pilha é adequada?
